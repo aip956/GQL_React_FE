@@ -9,3 +9,9 @@ mutation createPost($title:String,$description:String){
 }
 
 `;
+
+export const DELETE_POST=gql`
+mutation deletePost($id:String){
+    deletePost(id:$id)
+}
+`;
