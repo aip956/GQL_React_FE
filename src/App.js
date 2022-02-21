@@ -4,7 +4,7 @@ import { getAll } from "./GraphQL/Query";
 import { useState } from "react";
 
 function App() {
-  const {loading,error,data}=useQuery(getAll);
+  const {loading,error,data,refetch}=useQuery(getAll);
   const [createPost,{ err }]=useMutation(CREATE_POST);
   const [deletePost,{ errr }]=useMutation(DELETE_POST);
   const [title,setTitle]=useState(null) ;
@@ -37,14 +37,23 @@ const removePost=(id)=>{
         <p key={data.title}>
           {data.title}----{data.description}
         </p>
-        <button onClick={()=>removePost(data.id)}> Delete Me </button>
+        <button onClick={()=> {
+          removePost(data.id); 
+          refetch();
+        }
+        }> Delete Me </button>
         </>))
       }
 
   <br/>
   Title: <input onChange={(e)=>setTitle(e.target.value)}/><br/>
   Description: <input onChange={(e)=>setDescription(e.target.value)}/><br/>
-  <button onClick={()=>addPost()}>Add Post</button>
+  <button onClick={()=> {
+    addPost();
+    refetch();
+  }}
+    >
+      Add Post</button>
     </div>
   )
 }
